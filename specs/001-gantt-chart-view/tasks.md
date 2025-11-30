@@ -45,7 +45,7 @@ Based on plan.md structure, using Next.js 14+ App Router pattern:
 - [X] T008 [P] Create base User model with role-based permissions in lib/types/user.ts
 - [X] T009 [P] Create Project entity with validation in lib/types/project.ts
 - [X] T010 [P] Create ProjectHistory entity in lib/types/history.ts
-- [ ] T011 Setup database migrations and seed data in prisma/migrations/
+- [X] T011 Setup database migrations and seed data in prisma/migrations/
 - [X] T012 [P] Configure environment variables template in .env.example
 - [X] T013 [P] Create error handling middleware in lib/utils/error-handler.ts
 - [X] T014 [P] Setup date processing utilities using date-fns in lib/utils/date.ts
