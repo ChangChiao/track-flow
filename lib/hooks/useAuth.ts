@@ -1,7 +1,7 @@
 'use client'
 
 import { useSession } from 'next-auth/react'
-import { User, Permission, getRolePermissions } from '@/lib/types/user'
+import { User, Permission, getRolePermissions, UserRole } from '@/lib/types/user'
 
 export function useAuth() {
   const { data: session, status } = useSession()
@@ -10,7 +10,7 @@ export function useAuth() {
     id: session.user.id,
     email: session.user.email!,
     name: session.user.name!,
-    role: session.user.role,
+    role: session.user.role as UserRole,
     isActive: true,
     department: null,
     createdAt: new Date(),
