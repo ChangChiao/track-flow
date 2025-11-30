@@ -28,7 +28,7 @@ export const handleError = (error: unknown): NextResponse<ErrorResponse> => {
       {
         message: '資料驗證失敗',
         code: 'VALIDATION_ERROR',
-        details: error.errors,
+        details: error.issues,
       },
       { status: 400 }
     )

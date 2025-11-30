@@ -45,7 +45,7 @@ export type PaginationParams = z.infer<typeof paginationSchema>
 export const validateOrThrow = <T>(schema: z.ZodSchema<T>, data: unknown): T => {
   const result = schema.safeParse(data)
   if (!result.success) {
-    throw new Error(`驗證失敗: ${result.error.errors.map(e => e.message).join(', ')}`)
+    throw new Error(`驗證失敗: ${result.error.issues.map((e: any) => e.message).join(', ')}`)
   }
   return result.data
 }
