@@ -1,0 +1,329 @@
+openapi: 3.0.0
+info:
+  title: 甘特圖專案管理 API
+  version: 1.0.0
+  description: TrackFlow 甘特圖功能的 RESTful API 規格
+
+servers:
+  - url: /api
+    description: API 基礎路徑
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    Project:
+      type: object
+      required:
+        - id
+        - name
+        - startDate
+        - endDate
+        - progress
+        - status
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: 專案唯一識別碼
+        name:
+          type: string
+          minLength: 1
+          maxLength: 200
+          description: 專案名稱
+        description:
+          type: string
+          maxLength: 1000
+          description: 專案描述
+        startDate:
+          type: string
+          format: date
+          description: 開始日期 (YYYY-MM-DD)
+        endDate:
+          type: string
+          format: date
+          description: 結束日期 (YYYY-MM-DD)
+        progress:
+          type: number
+          minimum: 0
+          maximum: 100
+          description: 進度百分比（自動計算）
+        responsiblePerson:
+          $ref: '#/components/schemas/User'
+          nullable: true
+        status:
+          type: string
+          enum: [ACTIVE, COMPLETED, ARCHIVED]
+          description: 專案狀態
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+
+    ProjectInput:
+      type: object
+      required:
+        - name
+        - startDate
+        - endDate
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 200
+        description:
+          type: string
+          maxLength: 1000
+        startDate:
+          type: string
+          format: date
+        endDate:
+          type: string
+          format: date
+        responsiblePersonId:
+          type: string
+          format: uuid
+          nullable: true
+
+    User:
+      type: object
+      required:
+        - id
+        - email
+        - name
+        - role
+        - isActive
+      properties:
+        id:
+          type: string
+          format: uuid
+        email:
+          type: string
+          format: email
+        name:
+          type: string
+        role:
+          type: string
+          enum: [VIEWER, EDITOR, ADMIN]
+        isActive:
+          type: boolean
+        department:
+          type: string
+
+    Error:
+      type: object
+      required:
+        - message
+        - code
+      properties:
+        message:
+          type: string
+          description: 錯誤訊息
+        code:
+          type: string
+          description: 錯誤代碼
+        details:
+          type: object
+          description: 額外錯誤資訊
+
+paths:
+  /projects:
+    get:
+      summary: 取得專案列表
+      description: 取得所有可見的專案，支援篩選和分頁
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: [ACTIVE, COMPLETED, ARCHIVED]
+          description: 依狀態篩選
+        - name: responsiblePersonId
+          in: query
+          schema:
+            type: string
+            format: uuid
+          description: 依負責人篩選
+        - name: startDate
+          in: query
+          schema:
+            type: string
+            format: date
+          description: 開始日期範圍（起）
+        - name: endDate
+          in: query
+          schema:
+            type: string
+            format: date
+          description: 結束日期範圍（迄）
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 1
+            minimum: 1
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 50
+            minimum: 1
+            maximum: 200
+      responses:
+        '200':
+          description: 成功取得專案列表
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Project'
+                  pagination:
+                    type: object
+                    properties:
+                      page:
+                        type: integer
+                      limit:
+                        type: integer
+                      total:
+                        type: integer
+                      totalPages:
+                        type: integer
+        '401':
+          description: 未授權
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+    post:
+      summary: 建立新專案
+      description: 建立新專案（需要 EDITOR 或 ADMIN 權限）
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProjectInput'
+      responses:
+        '201':
+          description: 成功建立專案
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Project'
+        '400':
+          description: 無效的請求資料
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: 未授權
+        '403':
+          description: 無權限執行此操作
+
+  /projects/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+        description: 專案 ID
+
+    get:
+      summary: 取得單一專案詳情
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: 成功取得專案
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Project'
+        '404':
+          description: 專案不存在
+
+    put:
+      summary: 更新專案資料
+      description: 更新專案資料（需要 EDITOR 或 ADMIN 權限）
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProjectInput'
+      responses:
+        '200':
+          description: 成功更新專案
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Project'
+        '400':
+          description: 無效的請求資料
+        '403':
+          description: 無權限執行此操作
+        '404':
+          description: 專案不存在
+
+    delete:
+      summary: 刪除專案
+      description: 軟刪除專案（標記為 ARCHIVED，需要 ADMIN 權限）
+      security:
+        - bearerAuth: []
+      responses:
+        '204':
+          description: 成功刪除專案
+        '403':
+          description: 無權限執行此操作
+        '404':
+          description: 專案不存在
+
+  /users:
+    get:
+      summary: 取得使用者列表
+      description: 取得可指派為負責人的使用者列表
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: isActive
+          in: query
+          schema:
+            type: boolean
+          description: 只顯示活躍使用者
+        - name: role
+          in: query
+          schema:
+            type: string
+            enum: [VIEWER, EDITOR, ADMIN]
+      responses:
+        '200':
+          description: 成功取得使用者列表
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/User'
