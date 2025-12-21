@@ -1,0 +1,29 @@
+# Dependencies
+node_modules/
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Build outputs
+.next/
+out/
+dist/
+build/
+
+# Testing
+coverage/
+
+# Prisma
+prisma/migrations/
+
+# Cache
+.cache/
+*.min.js
+*.min.css
+
+# Generated files
+next-env.d.ts
+*.tsbuildinfo
+
+# Storybook
+storybook-static/

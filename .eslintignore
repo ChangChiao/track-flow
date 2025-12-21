@@ -1,0 +1,30 @@
+# Dependencies
+node_modules/
+
+# Build outputs
+.next/
+out/
+dist/
+build/
+
+# Testing
+coverage/
+
+# Prisma generated files
+prisma/generated/
+
+# Cache and temp files
+.cache/
+.tmp/
+*.min.js
+*.min.css
+
+# Third party libraries
+public/vendor/
+
+# Generated files
+next-env.d.ts
+*.tsbuildinfo
+
+# Storybook
+storybook-static/
