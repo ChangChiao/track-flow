@@ -4,16 +4,39 @@ import { useState } from 'react'
 import { GanttChart } from '@/components/gantt/GanttChart'
 import { useProjects } from '@/lib/hooks/useProjects'
 import { Button } from '@/components/ui/Button'
+import { Dialog } from '@/components/ui/Dialog'
+import { ProjectForm, ProjectFormData } from '@/components/project/ProjectForm'
 import { Project } from '@/lib/types/project'
 
 export default function GanttPage() {
   const [selectedProject, setSelectedProject] = useState<Project | null>(null)
+  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false)
   const { projects, loading, error, refetch } = useProjects()
 
   const handleProjectClick = (project: Project) => {
     setSelectedProject(project)
-    // 這裡可以開啟專案詳情對話框或跳轉到專案詳情頁
-    console.log('專案點擊:', project)
+    setIsEditDialogOpen(true)
+  }
+
+  const handleUpdateProject = async (data: ProjectFormData) => {
+    if (!selectedProject) return
+
+    const response = await fetch(`/api/projects/${selectedProject.id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    })
+
+    if (!response.ok) {
+      const error = await response.json()
+      throw new Error(error.message || '更新專案失敗')
+    }
+
+    setIsEditDialogOpen(false)
+    setSelectedProject(null)
+    refetch()
   }
 
   return (
@@ -117,21 +140,27 @@ export default function GanttPage() {
         onProjectClick={handleProjectClick}
       />
 
-      {/* 選中專案的資訊提示 */}
-      {selectedProject && (
-        <div className="fixed bottom-4 right-4 bg-white rounded-lg shadow-lg p-4 max-w-sm">
-          <h4 className="font-semibold text-gray-900">{selectedProject.name}</h4>
-          <p className="text-sm text-gray-600 mt-1">{selectedProject.description}</p>
-          <div className="mt-2 flex justify-end">
-            <button
-              onClick={() => setSelectedProject(null)}
-              className="text-sm text-blue-600 hover:text-blue-800"
-            >
-              關閉
-            </button>
-          </div>
-        </div>
-      )}
+      {/* 編輯專案對話框 */}
+      <Dialog 
+        isOpen={isEditDialogOpen} 
+        onClose={() => {
+          setIsEditDialogOpen(false)
+          setSelectedProject(null)
+        }}
+        title="編輯專案"
+        size="lg"
+      >
+        {selectedProject && (
+          <ProjectForm
+            project={selectedProject}
+            onSubmit={handleUpdateProject}
+            onCancel={() => {
+              setIsEditDialogOpen(false)
+              setSelectedProject(null)
+            }}
+          />
+        )}
+      </Dialog>
     </div>
   )
 }

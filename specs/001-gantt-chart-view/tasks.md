@@ -67,20 +67,20 @@ Based on plan.md structure, using Next.js 14+ App Router pattern:
 
 ### Implementation for User Story 1
 
-- [ ] T020 [P] [US1] Create GanttChart main component in components/gantt/GanttChart.tsx
-- [ ] T021 [P] [US1] Create GanttTimeline component for time axis in components/gantt/GanttTimeline.tsx
-- [ ] T022 [P] [US1] Create GanttRow component for project lanes in components/gantt/GanttRow.tsx
-- [ ] T023 [P] [US1] Create GanttBar component for progress visualization in components/gantt/GanttBar.tsx
-- [ ] T024 [P] [US1] Create TimeScaleSelector component in components/gantt/TimeScaleSelector.tsx
-- [ ] T025 [US1] Implement GET /api/projects route handler in app/api/projects/route.ts
-- [ ] T026 [US1] Create useProjects hook for data fetching in lib/hooks/useProjects.ts
-- [ ] T027 [US1] Create useGanttScale hook for time scaling in lib/hooks/useGanttScale.ts
-- [ ] T028 [US1] Implement Gantt chart main page in app/gantt/page.tsx
-- [ ] T029 [US1] Create loading component for Gantt page in app/gantt/loading.tsx
-- [ ] T030 [US1] Add navigation and layout for Gantt in app/gantt/layout.tsx
-- [ ] T031 [US1] Integrate SVG-based chart rendering with Tailwind styles
-- [ ] T032 [US1] Implement project timeline calculation and display logic
-- [ ] T033 [US1] Add responsive design for different screen sizes
+- [X] T020 [P] [US1] Create GanttChart main component in components/gantt/GanttChart.tsx
+- [X] T021 [P] [US1] Create GanttTimeline component for time axis in components/gantt/GanttTimeline.tsx
+- [X] T022 [P] [US1] Create GanttRow component for project lanes in components/gantt/GanttRow.tsx
+- [X] T023 [P] [US1] Create GanttBar component for progress visualization in components/gantt/GanttBar.tsx
+- [X] T024 [P] [US1] Create TimeScaleSelector component in components/gantt/TimeScaleSelector.tsx
+- [X] T025 [US1] Implement GET /api/projects route handler in app/api/projects/route.ts
+- [X] T026 [US1] Create useProjects hook for data fetching in lib/hooks/useProjects.ts
+- [X] T027 [US1] Create useGanttScale hook for time scaling in lib/hooks/useGanttScale.ts
+- [X] T028 [US1] Implement Gantt chart main page in app/gantt/page.tsx
+- [X] T029 [US1] Create loading component for Gantt page in app/gantt/loading.tsx
+- [X] T030 [US1] Add navigation and layout for Gantt in app/gantt/layout.tsx
+- [X] T031 [US1] Integrate SVG-based chart rendering with Tailwind styles
+- [X] T032 [US1] Implement project timeline calculation and display logic
+- [X] T033 [US1] Add responsive design for different screen sizes
 
 **Checkpoint**: At this point, User Story 1 should be fully functional and testable independently
 
@@ -94,16 +94,16 @@ Based on plan.md structure, using Next.js 14+ App Router pattern:
 
 ### Implementation for User Story 2
 
-- [ ] T034 [P] [US2] Create ResponsiblePersonSelector component in components/project/ResponsiblePersonSelector.tsx
-- [ ] T035 [P] [US2] Create ProjectForm component for editing in components/project/ProjectForm.tsx
-- [ ] T036 [US2] Implement GET /api/users route handler in app/api/users/route.ts
-- [ ] T037 [US2] Implement PUT /api/projects/[id] route handler in app/api/projects/[id]/route.ts
-- [ ] T038 [US2] Create useUsers hook for fetching users in lib/hooks/useUsers.ts
-- [ ] T039 [US2] Add responsible person display to GanttBar component
-- [ ] T040 [US2] Implement project editing modal integration
-- [ ] T041 [US2] Add permission checks for editing operations
-- [ ] T042 [US2] Update project history tracking for assignments
-- [ ] T043 [US2] Add validation for responsible person assignment
+- [X] T034 [P] [US2] Create ResponsiblePersonSelector component in components/project/ResponsiblePersonSelector.tsx
+- [X] T035 [P] [US2] Create ProjectForm component for editing in components/project/ProjectForm.tsx
+- [X] T036 [US2] Implement GET /api/users route handler in app/api/users/route.ts
+- [X] T037 [US2] Implement PUT /api/projects/[id] route handler in app/api/projects/[id]/route.ts
+- [X] T038 [US2] Create useUsers hook for fetching users in lib/hooks/useUsers.ts
+- [X] T039 [US2] Add responsible person display to GanttBar component
+- [X] T040 [US2] Implement project editing modal integration
+- [X] T041 [US2] Add permission checks for editing operations
+- [X] T042 [US2] Update project history tracking for assignments
+- [X] T043 [US2] Add validation for responsible person assignment
 
 **Checkpoint**: At this point, User Stories 1 AND 2 should both work independently
 
