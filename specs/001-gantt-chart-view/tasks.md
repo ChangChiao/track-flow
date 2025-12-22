@@ -54,6 +54,8 @@ Based on plan.md structure, using Next.js 14+ App Router pattern:
 - [X] T017 Create base UI components (Button, Dialog, ErrorMessage) in components/ui/
 - [X] T018 [P] Setup authentication context and hooks in lib/hooks/useAuth.ts
 - [X] T019 [P] Create permission checking hooks in lib/hooks/usePermissions.ts
+- [ ] T019b [P] Create permission matrix constants in lib/types/permission.ts
+- [ ] T019c Implement role-based API middleware in lib/utils/auth-middleware.ts
 
 **Checkpoint**: Foundation ready - user story implementation can now begin in parallel
 
@@ -104,6 +106,9 @@ Based on plan.md structure, using Next.js 14+ App Router pattern:
 - [X] T041 [US2] Add permission checks for editing operations
 - [X] T042 [US2] Update project history tracking for assignments
 - [X] T043 [US2] Add validation for responsible person assignment
+- [ ] T043b [US2] Add inactive responsible person visual indicator in components/gantt/GanttBar.tsx
+- [ ] T043c [US2] Filter and flag inactive users in ResponsiblePersonSelector component
+- [ ] T043d [US2] Update GET /api/users to include isActive status field
 
 **Checkpoint**: At this point, User Stories 1 AND 2 should both work independently
 
